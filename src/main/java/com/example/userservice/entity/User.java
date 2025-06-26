@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @Column
     private String name;
     @Column
@@ -21,4 +21,9 @@ public class User {
     private Integer age;
     @Column
     private LocalDateTime created_at;
+
+    @PrePersist
+    protected void onCreate() {
+        created_at = LocalDateTime.now().withNano(0);
+    }
 }
