@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Users list</title>
+</head>
+<body>
+<div>
+    <h1>Users</h1>
+    <a href="/users/new" >Add New User</a>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Age</th>
+            <th>Created at</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.age}"></td>
+            <td th:text="${user.created_at}"></td>
+            <td>
+                <a th:href="@{/users/{id}/update(id=${user.id})}">Update</a>
+                <form th:action="@{/users/{id}/delete(id=${user.id})}" method="post" style="display: inline;">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
