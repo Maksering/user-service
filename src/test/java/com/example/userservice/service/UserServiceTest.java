@@ -26,6 +26,9 @@ public class UserServiceTest {
     @Mock
     private UserMapper userMapper;
 
+    @Mock
+    private KafkaProducerService kafkaProducer;
+
     @InjectMocks
     private UserService userService;
 
@@ -132,7 +135,6 @@ public class UserServiceTest {
         existUser.setId(1L);
         existUser.setName("TestName");
         when(userRepository.findById(1L)).thenReturn(Optional.of(existUser));
-
         userService.deleteUser(1L);
 
         verify(userRepository).findById(1L);
