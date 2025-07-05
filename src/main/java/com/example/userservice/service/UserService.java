@@ -21,6 +21,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final KafkaProducerService kafkaProducer;
+    private final KafkaProducerService kafkaProducerService;
 
     @Transactional
     public List<UserDTO> getAllUsers() {
@@ -48,6 +50,7 @@ public class UserService {
     public UserDTO createUser(UserDTO userDTO) {
         logger.debug("Creating new user");
         User user = userMapper.mapToUserEntity(userDTO);
+        kafkaProducer.sendUserCreate(userDTO.getEmail());
         logger.info("User created ID: " + user.getId());
         return userMapper.mapToUserDTO(userRepository.save(user));
     }
@@ -74,6 +77,7 @@ public class UserService {
         });
         if (found != null) {
             userRepository.delete(found);
+            kafkaProducerService.sendUserDelete(found.getEmail());
             logger.info("User deleted ID: " + id);
         }
     }
