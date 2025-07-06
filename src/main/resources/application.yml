@@ -1,43 +1,5 @@
-server:
-  port: 8081
-
 spring:
   application:
     name: user-service
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
-    driver-class-name: org.postgresql.Driver
-  kafka:
-    bootstrap-servers: localhost:29092
-    template:
-      default-topic: user-events
-    producer:
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-
-springdoc:
-  api-docs:
-    enabled: true
-    path: /api-docs
-  swagger-ui:
-    enabled: true
-    path: /swagger-ui.html
-  model-and-view-allowed: true
-  default-produces-media-type: application/hal+json
-
-logging:
-  level:
-    root: INFO
-    org.example.user-service: DEBUG
-  file:
-    name: ./logs/user-app.log
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  config:
+    import: "configserver:http://localhost:8888"
